@@ -40,3 +40,4 @@ def logs_critical():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
+# Ceci est une ligne volontairement beaucoup trop longue pour respecter les règles flake8 et faire échouer le pipeline GitHub Actions aujourd'hui
