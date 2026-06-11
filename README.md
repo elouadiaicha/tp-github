@@ -1,7 +1,7 @@
 # TP GitHub Actions — CI/CD et automatisation
 
-**Durée estimée :** 6h  
-**Prérequis :** Git, GitHub, bases Bash ou PowerShell (TPs précédents)  
+**Durée estimée :** 6h
+**Prérequis :** Git, GitHub, bases Bash ou PowerShell (TPs précédents)
 **Environnement :** tout OS avec Git installé et un compte GitHub actif
 
 ---
@@ -210,39 +210,13 @@ Vérifiez vos réponses en allant dans l'onglet **Actions** de votre repo GitHub
 ### Exercice 1.2 — Premier workflow "Hello NexaCloud"
 
 Créez le fichier `.github/workflows/hello.yml` :
-
-```yaml
-name: Hello NexaCloud
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:       # permet de déclencher manuellement depuis l'interface GitHub
-
-jobs:
-  salutation:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout du code
-        uses: actions/checkout@v4
-
-      - name: Informations sur l'environnement
-        run: |
-          echo "Repo    : ${{ github.repository }}"
-          echo "Branche : ${{ github.ref_name }}"
-          echo "Commit  : ${{ github.sha }}"
-          echo "Acteur  : ${{ github.actor }}"
-
-      - name: Lister les fichiers du repo
-        run: ls -la
 ```
 
 Commitez et pushez. Observez l'exécution dans l'onglet **Actions**.
 
 > ✏️ **À vous**
 >
-> Ajoutez un step qui affiche la date et l'heure du runner avec `date`.  
+> Ajoutez un step qui affiche la date et l'heure du runner avec `date`.
 > Puis déclenchez le workflow **manuellement** depuis l'interface GitHub (bouton "Run workflow").
 
 <details>
