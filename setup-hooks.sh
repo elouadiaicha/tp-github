@@ -1,0 +1,15 @@
+# Créer manuellement le hook pre-push
+cat > .git/hooks/pre-push << 'EOF'
+#!/bin/bash
+echo "[pre-push] Lancement des tests..."
+cd ressources
+pytest -q
+EXIT_CODE=$?
+cd ..
+if [ $EXIT_CODE -ne 0 ]; then
+    echo "❌ Tests échoués — push bloqué"
+    exit 1
+fi
+echo "✅ Tests passés — push autorisé"
+EOF
+chmod +x .git/hooks/pre-push
