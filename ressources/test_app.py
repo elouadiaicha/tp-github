@@ -5,6 +5,7 @@ Lancés par pytest dans le pipeline CI.
 
 import pytest
 from app import app
+from flask.testing import FlaskClient
 
 
 @pytest.fixture
@@ -13,7 +14,7 @@ def client():
     return app.test_client()
 
 
-def test_index_status(client):
+def test_index_status(client: FlaskClient):
     """La route / retourne 200 avec le statut ok."""
     response = client.get("/")
     assert response.status_code == 200
@@ -22,14 +23,14 @@ def test_index_status(client):
     assert data["service"] == "NexaCloud API"
 
 
-def test_health(client):
+def test_health(client: FlaskClient):
     """La route /health retourne healthy."""
     response = client.get("/health")
     assert response.status_code == 200
     assert response.get_json()["status"] == "healthy"
 
 
-def test_logs_summary_structure(client):
+def test_logs_summary_structure(client: FlaskClient):
     """Le résumé de logs contient les 4 niveaux attendus."""
     response = client.get("/logs/summary")
     assert response.status_code == 200
@@ -39,7 +40,7 @@ def test_logs_summary_structure(client):
         assert isinstance(data[niveau], int)
 
 
-def test_logs_summary_values(client):
+def test_logs_summary_values(client: FlaskClient):
     """Les compteurs de logs ont les valeurs attendues."""
     response = client.get("/logs/summary")
     data = response.get_json()
@@ -49,7 +50,7 @@ def test_logs_summary_values(client):
     assert data["critical"] == 3
 
 
-def test_logs_critical_alerte(client):
+def test_logs_critical_alerte(client: FlaskClient):
     """L'alerte est active quand il y a des critiques."""
     response = client.get("/logs/critical")
     assert response.status_code == 200
@@ -57,3 +58,17 @@ def test_logs_critical_alerte(client):
     assert "critical_count" in data
     assert "alerte" in data
     assert data["alerte"] is True
+
+
+def test_logs_stats(client: FlaskClient):
+    """La route /logs/stats retourne le total et le détail."""
+    response = client.get("/logs/stats")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "total" in data
+    assert "breakdown" in data
+    assert data["total"] == 185
+    assert data["breakdown"]["info"] == 142
+    assert data["breakdown"]["warning"] == 28
+    assert data["breakdown"]["error"] == 12
+    assert data["breakdown"]["critical"] == 3
