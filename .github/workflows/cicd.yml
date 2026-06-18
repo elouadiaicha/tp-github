@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v5
         with:
@@ -34,7 +34,7 @@ jobs:
     if: github.ref_name == 'main'  # uniquement sur la branche main
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # TODO: ajouter le step de déploiement sur Azure App Service
       # (remplacez app-name par votre nom d'application)
@@ -47,6 +47,6 @@ jobs:
     if: github.ref_name == 'main'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # TODO: même chose pour la production
